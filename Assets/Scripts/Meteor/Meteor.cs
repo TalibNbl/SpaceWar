@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public class Meteor : MonoBehaviour
+public class Meteor : MonoBehaviour, IDamageable
 {
+    [Header("Score")]
+    [SerializeField] private int scoreValue = 10;
+
     [Header("Movement")]
     [SerializeField] private float fallSpeed = 3.5f;
     [SerializeField] private float rotateSpeed = 90f;
@@ -36,24 +39,24 @@ public class Meteor : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<PlayerHealth>()?.Die();
-            Die();
         }
     }
 
    private void Die()
-{
-    if (explosionClip != null)
     {
-        AudioSource.PlayClipAtPoint(explosionClip, transform.position, explosionVolume);
-    }
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.AddScore(scoreValue);
 
-    if (destroyVfxPrefab != null)
-    {
-        GameObject vfx = Instantiate(destroyVfxPrefab, transform.position, Quaternion.identity);
-        vfx.transform.localScale = transform.lossyScale * vfxScaleMultiplier;
-        Destroy(vfx, vfxLifeTime);
-    }
+        if (explosionClip != null)
+            AudioSource.PlayClipAtPoint(explosionClip, transform.position, explosionVolume);
 
-    Destroy(gameObject);
-}
+        if (destroyVfxPrefab != null)
+        {
+            GameObject vfx = Instantiate(destroyVfxPrefab, transform.position, Quaternion.identity);
+            vfx.transform.localScale = transform.lossyScale * vfxScaleMultiplier;
+            Destroy(vfx, vfxLifeTime);
+        }
+
+        Destroy(gameObject);
+    }
 }

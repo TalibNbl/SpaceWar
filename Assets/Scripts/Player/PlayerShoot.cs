@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -37,7 +36,7 @@ public class PlayerShoot : MonoBehaviour
         foreach (Transform point in firePoints)
         {
             Bullet newBullet = Instantiate(bulletPrefab, point.position, point.rotation);
-            newBullet.Fire(point.up);
+            newBullet.Fire(point.up, Faction.Player);
         }
 
         if (playerAnim != null)
@@ -47,7 +46,6 @@ public class PlayerShoot : MonoBehaviour
         PlayFx(rightGunFx);
         PlayFx(centralGunFx);
 
-        // 🔊 Play sound
         if (shootAudioSource != null && shootClip != null)
             shootAudioSource.PlayOneShot(shootClip);
     }

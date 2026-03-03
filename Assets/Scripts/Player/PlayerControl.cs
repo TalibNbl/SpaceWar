@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 8f;
 
-     [Header("Movement Limits")]
+    [Header("Movement Limits")]
     [SerializeField] private float minX = -8f;
     [SerializeField] private float maxX = 8f;
     [SerializeField] private float minY = -4.5f;
@@ -22,11 +22,16 @@ public class PlayerControl : MonoBehaviour
     public void OnMousePosition(InputValue value)
     {
         mouseScreenPosition = value.Get<Vector2>(); 
-        Debug.Log(mouseScreenPosition);   
     }
 
     private void Update()
     {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
+    {
+
         Vector3 mousePos = mouseScreenPosition;
 
         mousePos.z = -mainCam.transform.position.z;
@@ -39,4 +44,5 @@ public class PlayerControl : MonoBehaviour
 
         transform.position = worldPos;
     }
+
 }

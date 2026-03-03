@@ -134,11 +134,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8325634429095417431}
   - component: {fileID: -6002926419375991708}
+  - component: {fileID: -3785804676305238405}
   - component: {fileID: 6259573544068982833}
   - component: {fileID: 5294061846288923660}
   m_Layer: 0
   m_Name: Meteor
-  m_TagString: Enemy
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4cee14e1ddf8348aa4b1fabf3b8b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Meteor
+  scoreValue: 10
   fallSpeed: 3.5
   rotateSpeed: 90
   destroyVfxPrefab: {fileID: 1981774452263784, guid: 4e19371f43812044389be8538ddac949,
@@ -180,6 +182,19 @@ MonoBehaviour:
   explosionClip: {fileID: 8300000, guid: eeac7ff7e4ad44587b11429a7e7b8fc1, type: 3}
   explosionVolume: 0.8
   hp: 3
+--- !u!114 &-3785804676305238405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287393980525841862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6dfb7355071e504c8f4ff05d738084e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FactionMember
+  faction: 1
 --- !u!50 &6259573544068982833
 Rigidbody2D:
   serializedVersion: 5
