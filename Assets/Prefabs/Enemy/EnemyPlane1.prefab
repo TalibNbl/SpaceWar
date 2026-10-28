@@ -75,8 +75,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5815165480465240593, guid: ba105efae4d19f048899658fb0fbf61a,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 5815165480465240593, guid: ba105efae4d19f048899658fb0fbf61a,
+        type: 3}
       propertyPath: m_Name
       value: EnemyPlane1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8906570036326985473, guid: ba105efae4d19f048899658fb0fbf61a,
+        type: 3}
+      propertyPath: enemyHP
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

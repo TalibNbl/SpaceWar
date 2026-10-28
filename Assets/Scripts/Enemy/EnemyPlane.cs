@@ -2,39 +2,25 @@ using UnityEngine;
 
 public class EnemyPlane : MonoBehaviour, IDamageable
 {
-    [Header("Movement")]
-    [SerializeField] private float fallSpeed = 3f;
-
-    [Header("Stop Position Range")]
-    [SerializeField] private float minStopY = 1.5f;
-    [SerializeField] private float maxStopY = 3f;
-
-    [Header("Shooting")]
+    [SerializeField] private EnemyData data;
     [SerializeField] private Transform[] firePoints;
-    [SerializeField] private Bullet enemyBulletPrefab;
-    [SerializeField] private float fireRate = 1.5f;
-    [SerializeField] private float shootDelayAfterStop = 0.5f;
-
-    [Header("Sound")]
-    [SerializeField] private AudioClip explosionClip;
-    [SerializeField] private float explosionVolume = 1f;
-
-    [Header("Health & Score")]
-    [SerializeField] private int enemyHP = 3;
-    [SerializeField] private int scoreValue = 25;
-
-    [Header("VFX")]
-    [SerializeField] private GameObject destroyVfxPrefab;
-    [SerializeField] private float vfxLifeTime = 1.5f;
-    [SerializeField] private float vfxScaleMultiplier = 1f;
+    [SerializeField] private string enemyBulletPoolTag = "EnemyBullet";
 
     private float targetStopY;
     private bool reachedStop;
     private float nextFireTime;
+    private int currentHP;
 
-    private void Start()
+    private void OnEnable()
     {
-        targetStopY = Random.Range(minStopY, maxStopY);
+        if (data != null)
+        {
+            currentHP = data.maxHP;
+            targetStopY = Random.Range(data.minStopY, data.maxStopY);
+        }
+        
+        reachedStop = false;
+        nextFireTime = 0f; // Havuzdan çıkınca zamanlayıcıyı sıfırlıyoruz
     }
 
     private void Update()
@@ -51,67 +37,69 @@ public class EnemyPlane : MonoBehaviour, IDamageable
 
     private void FallAndStop()
     {
-        transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+        transform.position += Vector3.down * (data.fallSpeed * Time.deltaTime);
 
         if (transform.position.y <= targetStopY)
         {
             reachedStop = true;
-
             transform.position = new Vector3(transform.position.x, targetStopY, transform.position.z);
-
-            nextFireTime = Time.time + shootDelayAfterStop;
+            
+            nextFireTime = Time.time + data.shootDelayAfterStop;
         }
     }
 
     private void HandleShooting()
     {
-        if (enemyBulletPrefab == null) return;
+        if (data == null) return;
         if (firePoints == null || firePoints.Length == 0) return;
-
         if (Time.time < nextFireTime) return;
 
         foreach (Transform fp in firePoints)
         {
             if (fp == null) continue;
 
-            Bullet b = Instantiate(enemyBulletPrefab, fp.position, fp.rotation);
-            b.Fire(Vector2.down, Faction.Enemy);
+            GameObject bulletObj = ObjectPooler.Instance.SpawnFromPool(enemyBulletPoolTag, fp.position, fp.rotation);
+            if (bulletObj != null && bulletObj.TryGetComponent<Bullet>(out var bullet))
+            {
+                bullet.Fire(Vector2.down, Faction.Enemy);
+            }
         }
 
-        nextFireTime = Time.time + (1f / fireRate);
+        nextFireTime = Time.time + (1f / data.fireRate);
     }
 
     public void TakeDamage(int damage)
     {
-        enemyHP -= damage;
-        if (enemyHP <= 0)
-            Die();
+        currentHP -= damage;
+        if (currentHP <= 0) Die();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent<PlayerHealth>(out var player))
         {
-            player.Die();
+            player.TakeDamage(1);
             Die();
         }
     }
 
     private void Die()
     {
-        if (ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScore(scoreValue);
-
-        if (explosionClip != null)
-            AudioSource.PlayClipAtPoint(explosionClip, transform.position, explosionVolume);
-
-        if (destroyVfxPrefab != null)
+        if (data != null)
         {
-            GameObject vfx = Instantiate(destroyVfxPrefab, transform.position, Quaternion.identity);
-            vfx.transform.localScale = transform.lossyScale * vfxScaleMultiplier;
-            Destroy(vfx, vfxLifeTime);
+            GameEvents.TriggerScoreAdded(data.scoreValue);
+
+            if (data.explosionClip != null)
+                AudioSource.PlayClipAtPoint(data.explosionClip, transform.position, data.explosionVolume);
+
+            if (data.destroyVfxPrefab != null)
+            {
+                GameObject vfx = Instantiate(data.destroyVfxPrefab, transform.position, Quaternion.identity);
+                vfx.transform.localScale = transform.lossyScale * data.vfxScaleMultiplier;
+                Destroy(vfx, data.vfxLifeTime);
+            }
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

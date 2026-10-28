@@ -88,8 +88,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1293459811056944811}
   m_Father: {fileID: 0}
@@ -106,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf8522bf371d0b40afdd04f768f0e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
-  moveSpeed: 8
   minX: -14
   maxX: 14
   minY: -8
@@ -130,9 +129,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4381865138147476255, guid: a3981e493dda5364caa9d2199e79cc0e,
     type: 3}
   playerAnim: {fileID: 2660812753363028887}
-  leftGunFx: {fileID: 1581869246212879799}
-  rightGunFx: {fileID: 5628363324498936875}
-  centralGunFx: {fileID: 1402332326867254410}
+  muzzleFx:
+  - {fileID: 1581869246212879799}
+  - {fileID: 5628363324498936875}
+  - {fileID: 1402332326867254410}
   shootAudioSource: {fileID: 7622750314364477244}
   shootClip: {fileID: 8300000, guid: 033b1daf4512444018111f90f909d172, type: 3}
   fireRate: 2
@@ -150,9 +150,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   destroyVfxPrefab: {fileID: 1981774452263784, guid: 4e19371f43812044389be8538ddac949,
     type: 3}
+  vfxLifeTime: 2
+  vfxScaleMultiplier: 1
   explosionClip: {fileID: 8300000, guid: eeac7ff7e4ad44587b11429a7e7b8fc1, type: 3}
   explosionVolume: 1
-  vfxLifeTime: 2
   gameOverUI: {fileID: 0}
 --- !u!114 &3504078443706466692
 MonoBehaviour:

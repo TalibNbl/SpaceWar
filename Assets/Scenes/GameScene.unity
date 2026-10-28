@@ -119,6 +119,62 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &168106691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 168106692}
+  - component: {fileID: 168106693}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &168106692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168106691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 932493915}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &168106693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168106691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 029727ca09173544c873bc6e074c4863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPooler
+  pools:
+  - tag: PlayerBullet
+    prefab: {fileID: 1527945437967957018, guid: a3981e493dda5364caa9d2199e79cc0e,
+      type: 3}
+    size: 30
+  - tag: EnemyPlane
+    prefab: {fileID: 68653607175187988, guid: af1af8922c285164db27609ec22ba4aa, type: 3}
+    size: 10
+  - tag: EnemyBullet
+    prefab: {fileID: 1527945437967957018, guid: 5fb127d628cd214439ef5d92d4a0f2fa,
+      type: 3}
+    size: 30
 --- !u!1 &264450166
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,12 +356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ec70c67ca4bb44d81166f187d78ce3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectSpawner
-  prefabs:
-  - {fileID: 8572371991574481755, guid: 3f195a8bb58e87f42b41bb34f8a1dd95, type: 3}
-  - {fileID: 729390287695565476, guid: 2c579feddd1b0fd429d76fef6c201710, type: 3}
-  - {fileID: 5962252303776928031, guid: ef0f03540e674814ea220c67fd699648, type: 3}
-  - {fileID: 6044902038652467890, guid: a37b2915121350344b35300b1f2c7a4f, type: 3}
-  - {fileID: 6044902038652467890, guid: a37b2915121350344b35300b1f2c7a4f, type: 3}
+  enemyPoolTags:
+  - EnemyPlane
   minX: -14
   maxX: 14
   spawnY: 9
@@ -988,6 +1040,7 @@ Transform:
   - {fileID: 340563812}
   - {fileID: 1599901258}
   - {fileID: 668047337}
+  - {fileID: 168106692}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1195612562
@@ -2215,6 +2268,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1639197509006233924, guid: 2baadf297376dc84fa5fa5619bb830ba,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639197509006233924, guid: 2baadf297376dc84fa5fa5619bb830ba,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639197509006233924, guid: 2baadf297376dc84fa5fa5619bb830ba,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1639197509006233924, guid: 2baadf297376dc84fa5fa5619bb830ba,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2262,6 +2330,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5926532565710096384, guid: 2baadf297376dc84fa5fa5619bb830ba,
+        type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5926532565710096384, guid: 2baadf297376dc84fa5fa5619bb830ba,
+        type: 3}
+      propertyPath: muzzleFx.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6577657803045523133, guid: 2baadf297376dc84fa5fa5619bb830ba,
         type: 3}

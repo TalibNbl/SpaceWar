@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7cb54740b1e43641a59cc996b1178ec, type: 3}
+  m_Name: FastEnemtData
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  maxHP: 3
+  fallSpeed: 3
+  scoreValue: 25
+  minStopY: 1.5
+  maxStopY: 3
+  enemyBulletPrefab: {fileID: -5543107833979244399, guid: 5fb127d628cd214439ef5d92d4a0f2fa,
+    type: 3}
+  fireRate: 1.5
+  shootDelayAfterStop: 0.5
+  destroyVfxPrefab: {fileID: 1981774452263784, guid: 4e19371f43812044389be8538ddac949,
+    type: 3}
+  vfxLifeTime: 1.5
+  vfxScaleMultiplier: 1
+  explosionClip: {fileID: 8300000, guid: eeac7ff7e4ad44587b11429a7e7b8fc1, type: 3}
+  explosionVolume: 1

@@ -6,7 +6,6 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance { get; private set; }
 
     [SerializeField] private TMP_Text scoreText;
-
     private int score;
 
     public int CurrentScore => score;
@@ -21,12 +20,19 @@ public class ScoreManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        RefreshUI();
+        GameEvents.OnScoreAdded += AddScore;
     }
 
-    public void AddScore(int amount)
+    private void OnDisable()
+    {
+        GameEvents.OnScoreAdded -= AddScore;
+    }
+
+    private void Start() => RefreshUI();
+
+    private void AddScore(int amount)
     {
         score += amount;
         RefreshUI();
@@ -35,6 +41,6 @@ public class ScoreManager : MonoBehaviour
     private void RefreshUI()
     {
         if (scoreText != null)
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "Score: " + score;
     }
 }

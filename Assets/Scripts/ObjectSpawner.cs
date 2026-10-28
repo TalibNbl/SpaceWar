@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class ObjectSpawner : MonoBehaviour
 {
-    [Header("Prefabs to Spawn")]
-    [SerializeField] private GameObject[] prefabs;
+    [Header("Pool Tags to Spawn")]
+    [SerializeField] private string[] enemyPoolTags; // Örn: "EnemyPlane", "Meteor"
 
     [Header("Spawn Area")]
     [SerializeField] private float minX = -8f;
@@ -23,7 +23,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (prefabs == null || prefabs.Length == 0) return;
+        if (enemyPoolTags == null || enemyPoolTags.Length == 0) return;
 
         if (Time.time >= nextSpawnTime)
         {
@@ -37,7 +37,8 @@ public class ObjectSpawner : MonoBehaviour
         float x = Random.Range(minX, maxX);
         Vector3 pos = new Vector3(x, spawnY, 0f);
 
-        int i = Random.Range(0, prefabs.Length);
-        Instantiate(prefabs[i], pos, Quaternion.identity);
+        // Rastgele bir düşman tag'i seçip havuzdan doğuruyoruz
+        string randomTag = enemyPoolTags[Random.Range(0, enemyPoolTags.Length)];
+        ObjectPooler.Instance.SpawnFromPool(randomTag, pos, Quaternion.identity);
     }
 }

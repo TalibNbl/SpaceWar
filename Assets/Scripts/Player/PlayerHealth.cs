@@ -2,32 +2,21 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameObject destroyVfxPrefab;
-    [SerializeField] private AudioClip explosionClip;
-    [SerializeField] private float explosionVolume = 1f;
-    [SerializeField] private float vfxLifeTime = 2f;
-    [SerializeField] private GameOverUI gameOverUI;
-    
-    private void Awake()
+    private bool isDead;
+
+    public void TakeDamage(int damage)
     {
-        gameOverUI.GetComponent<GameOverUI>();
+        Die();
     }
 
-    public void TakeDamage(int damage) => Die();
-    
-    public void Die()
+    private void Die()
     {
-        int finalScore = 0;
-        if (ScoreManager.Instance != null)
-            finalScore = ScoreManager.Instance.CurrentScore;
+        if (isDead) return;
+        isDead = true;
 
-        if (gameOverUI != null)
-            gameOverUI.Show(finalScore);
-        else
-            Debug.LogError("GameOverUI reference not assigned on PlayerHealth!");
+        // Olayı fırlatıyoruz (UI bunu dinleyecek)
+        GameEvents.TriggerPlayerDied();
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
-
-    
 }

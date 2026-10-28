@@ -8,37 +8,36 @@ public class Bullet : MonoBehaviour
 
     private Vector2 direction;
     private Faction ownerFaction;
+    private float deactivateTime;
 
     public void Fire(Vector2 dir, Faction owner)
     {
         direction = dir.normalized;
         ownerFaction = owner;
-
-        CancelInvoke();
-        Invoke(nameof(DestroyBullet), lifeTime);
+        deactivateTime = Time.time + lifeTime;
     }
 
     private void Update()
     {
         transform.position += (Vector3)(direction * speed * Time.deltaTime);
+
+        if (Time.time >= deactivateTime)
+        {
+            gameObject.SetActive(false); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        var damageable = other.GetComponentInParent<IDamageable>();
-        if (damageable == null) return;
+        if (other.TryGetComponent<FactionMember>(out var factionMember))
+        {
+            if (factionMember.faction == ownerFaction) return;
+        }
 
-        var factionMember = other.GetComponentInParent<FactionMember>();
-        if (factionMember == null) return;
-
-        if (factionMember.faction == ownerFaction) return;
-
-        damageable.TakeDamage(damage);
-        DestroyBullet();
-    }
-
-    private void DestroyBullet()
-    {
-        Destroy(gameObject);
+        if (other.TryGetComponent<IDamageable>(out var damageable))
+        {
+            damageable.TakeDamage(damage);
+            gameObject.SetActive(false);
+        }
     }
 }

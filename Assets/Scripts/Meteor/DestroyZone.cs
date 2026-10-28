@@ -6,7 +6,7 @@ public class DestroyZone : MonoBehaviour
     {
         if (other != null)
         {
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 }

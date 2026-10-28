@@ -38,14 +38,14 @@ public class Meteor : MonoBehaviour, IDamageable
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerHealth>()?.Die();
+            other.GetComponent<PlayerHealth>()?.TakeDamage(0);
         }
     }
 
    private void Die()
     {
         if (ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScore(scoreValue);
+            GameEvents.TriggerScoreAdded(scoreValue);
 
         if (explosionClip != null)
             AudioSource.PlayClipAtPoint(explosionClip, transform.position, explosionVolume);
